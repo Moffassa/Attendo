@@ -1,0 +1,16 @@
+certifi
+chardet
+defusedxml
+Django
+django-filter
+django-rest-auth
+djangorestframework
+idna
+Markdown
+oauthlib
+python3-openid
+pytz
+requests
+requests-oauthlib
+six
+urllib3
