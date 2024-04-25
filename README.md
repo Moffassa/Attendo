@@ -2,7 +2,7 @@
 
 Step 1: Run the virtual Environment:
 
-source env/bin/activate
+env/bin/activate
 
 Step 2: Install all dependencies
 
