@@ -1,6 +1,8 @@
 # Attendo
 
-Step 1: Run the virtual Environment:
+Step 1: Activate and run the virtual Environment:
+
+python -m venv env
 
 env/bin/activate
 
