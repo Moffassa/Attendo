@@ -5,8 +5,8 @@ from .models import User,Student,Instructor,Admin,Report,Lecture
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model= User
-        fields='name','email','phone_number','national_id','user_type'
-        read_only_fields=('date_joined','last_updated')
+        fields='name','email','phone_number','national_id','date_joined','last_updated','user_type'
+        read_only_fields=('date_joined','last_updated','user_type')
         extra_kwargs = {
             'password': {'write_only': True}}
     def create(self, validated_data):
@@ -22,7 +22,7 @@ class UserSerializer(serializers.ModelSerializer):
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model= Student
-        fields='faculty','grade'
+        fields= 'user_id','name','faculty','grade'
         read_only_fields=('user_id','name')
 
 
@@ -30,6 +30,7 @@ class StudentSerializer(serializers.ModelSerializer):
 class InstructorSerializer(serializers.ModelSerializer):
     class Meta:
         model= Instructor
+        fields = 'user_id','name'
         read_only_fields=('user_id','name')
 
 
@@ -37,6 +38,7 @@ class InstructorSerializer(serializers.ModelSerializer):
 class AdminSerializer(serializers.ModelSerializer):
     class Meta:
         model= Admin
+        fields = 'user_id','name'
         read_only_fields=('user_id','name')
         
 
@@ -44,8 +46,8 @@ class AdminSerializer(serializers.ModelSerializer):
 class LectureSerializer(serializers.ModelSerializer):
     class Meta:
         model= Lecture
-        fields='instructor','faculty','grade','lecture_start_time','lecture_end_time','students'
-        read_only_fields=('pk',)
+        fields='pk','instructor','faculty','grade','lecture_start_time','lecture_end_time','students'
+        read_only_fields=('pk','students')
    
         
         

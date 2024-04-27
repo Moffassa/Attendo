@@ -1,10 +1,9 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.postgres.fields import ArrayField
-from django.utils.translation import gettext_lazy as _
+from .managers import UserManager
 
     
 
@@ -27,9 +26,29 @@ class User(AbstractUser):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
+    objects = UserManager()
+
+    
+
+    def save(self, force_insert=False, force_update=False):
+      if self._state.adding == True:
+        if self.email.__contains__('@stu.com'):
+           self.user_type=1
+           student = Student.objects.create(user_id=self.pk,name=self.name)
+           student.save()
+        elif self.email.__contains__('@prof.com'):
+           self.user_type=2
+           instructor = Instructor.objects.create(user_id=self.pk,name=self.name)
+           instructor.save()
+        elif self.email.__contains__('@admin.com'):
+           self.user_type=3
+           admin = Admin.objects.create(user_id=self.pk,name=self.name)
+           admin.save()
+
+        super(User, self).save(force_insert, force_update)
+
     def __str__(self):
         return self.email
-
 
 
 
@@ -38,6 +57,11 @@ class Student(models.Model):
     name = models.OneToOneField(User, to_field='name',related_name='studentname', on_delete=models.PROTECT)
     faculty = models.CharField(max_length=30, null=True, unique=False)
     grade = models.CharField(max_length=30, null=True, unique=False)
+
+    def save(self, force_insert=False, force_update=False):
+        lectures = Lecture.objects.all()
+        lectures.save()
+        super(Lecture, self).save(force_insert, force_update)
 
 
 
@@ -63,6 +87,11 @@ class Lecture(models.Model):
    lecture_start_time = models.DateTimeField(null=False, blank=False)
    lecture_end_time = models.DateTimeField(null=False, blank=False)
    students = models.ManyToManyField(Student)
+
+   def save(self, force_insert=False, force_update=False):
+    students = Student.objects.filter(faculty=self.faculty,grade=self.grade)
+    self.students = students
+    super(Lecture, self).save(force_insert, force_update)   
 
 
 
