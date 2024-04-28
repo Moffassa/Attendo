@@ -73,7 +73,7 @@ class UserAPIView(APIView):
             "id": user.id,
             "email": user.email,
             "user_type": user.user_type,
-            "exp": datetime.datetime.now() + datetime.timedelta(minutes=60),
+            "exp": datetime.datetime.now() + datetime.timedelta(hours=12),
             "iat": datetime.datetime.now()
         }
 
@@ -329,7 +329,7 @@ class ReportView(APIView):
             student = request.data['student']
             report = Report.objects.get(lecture=lecturepk,date=datetime.date.today())
             report.students.add(student)
-            report.authorization_time.append(datetime.now)
+            report.authorization_time.append(datetime.time.now)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)     
         report.save()

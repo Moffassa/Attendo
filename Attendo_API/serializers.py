@@ -46,7 +46,7 @@ class AdminSerializer(serializers.ModelSerializer):
 class LectureSerializer(serializers.ModelSerializer):
     class Meta:
         model= Lecture
-        fields='pk','instructor','faculty','grade','lecture_start_time','lecture_end_time','students'
+        fields='pk','name','instructor','faculty','grade','lecture_start_time','lecture_end_time','students'
         read_only_fields=('pk','students')
    
         
